@@ -44,8 +44,9 @@ target\site\reports\serenity\index.html
 
 Functionalites | Tags | 
 --- | --- |
-Dev | not @Perf | 
-Feat | not @Perf| 
-Autosit | not @Kibana and not @Perf | 
+Regression | @Regression | 
+Vending Machine | @VendingMachine| 
+City Bike | @CityBike | 
 
 ## Serenity Report sample
+
