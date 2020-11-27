@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>VendingMachineAutomation</groupId>
+    <artifactId>VendingMachineAutomation</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>jar</packaging>
+
+    <name>Sample Serenity project using Cucumber and WebDriver</name>
+
+    <properties>
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- SERENITY CUCUMBER JUNIT-->
+        <serenity.version>2.2.2</serenity.version>
+        <serenity-cucumber.version>2.2.2</serenity-cucumber.version>
+        <cucumber-jvm-parallel-plugin.version>5.0.0</cucumber-jvm-parallel-plugin.version>
+        <cucumber-junit.version>5.6.0</cucumber-junit.version>
+        <junit.version>4.12</junit.version>
+
+        <!-- Maven Plugin-->
+        <maven-failsafe-plugin.version>3.0.0-M4</maven-failsafe-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+        <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <plugin.enforcer.version>3.0.0-M4</plugin.enforcer.version>
+
+        <parallel.tests>5</parallel.tests>
+        <parallel.api.tests>5</parallel.api.tests>
+        <jvm-min-mem>128m</jvm-min-mem>
+        <jvm-max-mem>256m</jvm-max-mem>
+        <jvm-min-perm>128m</jvm-min-perm>
+    </properties>
+
+
+    <dependencies>
+        <!-- SERENITY CUCUMBER JUNIT-->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-core</artifactId>
+            <version>${serenity.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>cucumber-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-junit</artifactId>
+            <version>${serenity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-rest-assured</artifactId>
+            <version>${serenity.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-cucumber5</artifactId>
+            <version>${serenity-cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber-junit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java8</artifactId>
+            <version>${cucumber-junit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <skip>true</skip>
+                            <argLine>-Xms${jvm-min-mem} -Xmx${jvm-max-mem} -XX:MaxMetaspaceSize=${jvm-min-perm}
+                            </argLine>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <includes>
+                                <include>**/TestSuite*.class
+                                </include> <!--Comments>Please update to point to correct Runner Class(es)<-->
+                            </includes>
+                            <argLine>-Xms${jvm-min-mem} -Xmx${jvm-max-mem} -XX:MaxMetaspaceSize=${jvm-min-perm}
+                            </argLine>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>net.serenity-bdd.maven.plugins</groupId>
+                        <artifactId>serenity-maven-plugin</artifactId>
+                        <version>${serenity.version}</version>
+                        <executions>
+                            <execution>
+                                <id>serenity-reports</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>aggregate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
