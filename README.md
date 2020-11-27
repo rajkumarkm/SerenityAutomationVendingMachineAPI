@@ -50,3 +50,4 @@ City Bike | @CityBike |
 
 ## Serenity Report sample
 
+![Serenity Reports - ](https://user-images.githubusercontent.com/1440014/100470297-fcbc7380-30fd-11eb-94cf-68a72f5116c3.png)
