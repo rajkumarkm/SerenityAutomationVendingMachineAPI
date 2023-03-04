@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 
 public class ApiActions {
 
+
     protected static Logger logger = getLogger(ApiActions.class);
 
     protected static String endpointRoot;
